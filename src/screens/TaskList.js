@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, FlatList } from 'react-native';
+import { View, Text, ImageBackground, StyleSheet, FlatList, TouchableOpacity, Platform } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 
 import 'moment/locale/pt-br';
@@ -10,6 +11,7 @@ import Task from '../components/Task';
 
 export default class TaskList extends Component {
   state = {
+    showDoneTasks: true,
     tasks: [
       {
         id: Math.random(),
@@ -25,6 +27,8 @@ export default class TaskList extends Component {
       }
     ]
   }
+
+  toggleFilter = () => this.setState({ showDoneTasks: !this.state.showDoneTasks });
 
   toggleTask = taskId => {
     const tasks = [...this.state.tasks];
@@ -47,6 +51,15 @@ export default class TaskList extends Component {
           style={ styles.background }
           source={ todayImage }
         >
+          <View style={ styles.iconBar } >
+            <TouchableOpacity onPress={ this.toggleFilter } >
+              <Icon
+                name={ this.state.showDoneTasks ? 'eye' : 'eye-slash' }
+                color={ commonStyles.colors.secundary }
+                size={ 20 }
+              />
+            </TouchableOpacity>
+          </View>
           <View style={ styles.titleBar } >
             <Text style={ styles.title } >Hoje</Text>
             <Text style={ styles.subtitle } >{ today }</Text>
@@ -91,5 +104,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 20,
     marginBottom: 30,
-  }
+  },
+  iconBar: {
+    flexDirection: 'row',
+    marginHorizontal: 20,
+    justifyContent: 'flex-end',
+    marginTop: Platform.OS === 'ios' ? 40 : 10,
+  },
 });
