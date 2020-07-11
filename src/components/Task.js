@@ -5,13 +5,15 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import commonStyles from '../commonStyles';
 
 export default ({ desc, estimateAt, doneAt }) => {
+  const doneOrNotStyle = doneAt !== null ? { textDecorationLine: 'line-through' } : {}; 
+
   return (
     <View style={styles.container} >
       <View style={styles.checkContainer} >
         {getCheckView(doneAt)}
       </View>
       <View>
-        <Text>{desc}</Text>
+        <Text style={[ styles.desc, doneOrNotStyle ]} >{desc}</Text>
         <Text>{estimateAt + ""}</Text>
       </View>
     </View>
@@ -56,5 +58,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#4d7031',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  desc: {
+    fontFamily: commonStyles.fontFamily,
+    color: commonStyles.colors.mainText,
+    fontSize: 20,
   }
 });
