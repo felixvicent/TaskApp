@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 
@@ -7,7 +7,7 @@ import 'moment/locale/pt-br';
 
 import commonStyles from '../commonStyles';
 
-export default ({ desc, estimateAt, doneAt }) => {
+export default ({ id, desc, estimateAt, doneAt, toggleTask }) => {
   const doneOrNotStyle = doneAt !== null ? { textDecorationLine: 'line-through' } : {};
   
   const date = doneAt ? doneAt : estimateAt;
@@ -15,9 +15,11 @@ export default ({ desc, estimateAt, doneAt }) => {
 
   return (
     <View style={styles.container} >
-      <View style={styles.checkContainer} >
-        { getCheckView(doneAt) }
-      </View>
+      <TouchableWithoutFeedback onPress={ () => toggleTask(id) } >
+        <View style={styles.checkContainer} >
+          { getCheckView(doneAt) }
+        </View>
+      </TouchableWithoutFeedback>
       <View>
         <Text style={[ styles.desc, doneOrNotStyle ]} >{desc}</Text>
         <Text style={ styles.date } >{formattedDate}</Text>
