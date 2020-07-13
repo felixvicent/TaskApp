@@ -22,8 +22,20 @@ export default ({ id, desc, estimateAt, doneAt, toggleTask }) => {
     )
   }
 
+  const getLeftContent = () => {
+    return (
+      <View style={ styles.left } >
+        <Icon name='trash' size={ 20 } color='#fff' style={ styles.excludeIcon } />
+        <Text style={ styles.excludeText } >Excluir</Text>
+      </View>
+    )
+  }
+
   return (
-    <Swipleable renderRightActions={ getRightContent } >
+    <Swipleable
+      renderRightActions={ getRightContent }
+      renderLeftActions={ getLeftContent }
+    >
       <View style={styles.container} >
         <TouchableWithoutFeedback onPress={ () => toggleTask(id) } >
           <View style={styles.checkContainer} >
@@ -57,6 +69,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     alignItems: 'center',
     paddingVertical: 10,
+    backgroundColor: '#fff',
   },
   checkContainer: {
     width: '20%',
@@ -94,5 +107,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     paddingHorizontal: 20,
+  },
+  left: {
+    flex: 1,
+    backgroundColor: '#f00',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  excludeText: {
+    fontFamily: commonStyles.fontFamily,
+    color: '#fff',
+    fontSize: 20,
+    margin: 10,
+  },
+  excludeIcon: {
+    marginLeft: 10,
   }
 });
