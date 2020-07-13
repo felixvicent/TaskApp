@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { Modal, View, StyleSheet, TouchableWithoutFeedback, Text, TouchableOpacity, TextInput } from 'react-native';
+import { Modal, View, StyleSheet, TouchableWithoutFeedback, Text, TouchableOpacity, TextInput, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
 
 import commonStyles from '../commonStyles';
 
 const initialState = {
   desc: '',
   date: new Date(),
+  showDatePicker: false,
 };
 
 export default class AddTask extends Component {
@@ -14,8 +16,32 @@ export default class AddTask extends Component {
     ...initialState,
   }
 
-  getDateTimePicker = () => {
-    return <DateTimePicker value={ this.state.date } onChange={ (_, date) => this.setState({ date }) } mode='date' />
+  getDatePicker = () => {
+    let datePicker = <DateTimePicker
+      value={ this.state.date }
+      onChange={ (_, date) => this.setState({
+        date: date || this.state.date,
+        showDatePicker: false,
+      }) }
+      mode='date' />
+
+    const dateString = moment(this.state.date).format('ddd, D [de] MMMM [de] YYYY');
+
+    if(Platform.OS === 'android'){
+      datePicker = (
+        <View>
+          <TouchableOpacity onPress={ () => this.setState({ showDatePicker: true }) } >
+            <Text style={ styles.date } >
+              { dateString }
+            </Text>
+          </TouchableOpacity>
+
+          { this.state.showDatePicker && datePicker }
+        </View>
+      )
+    }
+
+    return datePicker;
   }
   
   render(){
@@ -39,7 +65,7 @@ export default class AddTask extends Component {
             onChangeText={ desc => this.setState({ desc }) }
           />
 
-          { this.getDateTimePicker() }
+          { this.getDatePicker() }
           
           <View style={ styles.buttons } >
             <TouchableOpacity onPress={ this.props.onCancel } >
@@ -93,5 +119,10 @@ const styles = StyleSheet.create({
     margin: 20,
     marginRight: 30,
     color: commonStyles.colors.today,
+  },
+  date: {
+    fontFamily: commonStyles.fontFamily,
+    fontSize: 20,
+    marginLeft: 15,
   }
 });
