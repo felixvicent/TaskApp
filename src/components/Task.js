@@ -8,7 +8,7 @@ import 'moment/locale/pt-br';
 
 import commonStyles from '../commonStyles';
 
-export default ({ id, desc, estimateAt, doneAt, toggleTask }) => {
+export default ({ id, desc, estimateAt, doneAt, toggleTask, onDelete }) => {
   const doneOrNotStyle = doneAt !== null ? { textDecorationLine: 'line-through' } : {};
   
   const date = doneAt ? doneAt : estimateAt;
@@ -16,7 +16,7 @@ export default ({ id, desc, estimateAt, doneAt, toggleTask }) => {
 
   const getRightContent = () => {
     return (
-      <TouchableOpacity style={ styles.right } >
+      <TouchableOpacity style={ styles.right } onPress={ () => onDelete && onDelete(id) } >
         <Icon name='trash' size={ 30 } color='#fff' />
       </TouchableOpacity>
     )
@@ -33,6 +33,7 @@ export default ({ id, desc, estimateAt, doneAt, toggleTask }) => {
 
   return (
     <Swipleable
+      onSwipeableLeftOpen={ () => onDelete && onDelete(id) }
       renderRightActions={ getRightContent }
       renderLeftActions={ getLeftContent }
     >
