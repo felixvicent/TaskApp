@@ -23,12 +23,12 @@ export default class Auth extends Component {
   }
 
   signinOrSignup = () => {
-     if(this.state.stageNew) {
-       this.signup();
-     }
-     else{
-       Alert.alert('Sucesso!', 'Logar')
-     }
+    if (this.state.stageNew) {
+      this.signup();
+    }
+    else {
+      this.signin();
+    }
   }
 
   signup = async () => {
@@ -48,55 +48,70 @@ export default class Auth extends Component {
     }
   }
 
+  signin = async () => {
+    try {
+      const res = await axios.post(`${server}/signin`, {
+        email: this.state.email,
+        password: this.state.password,
+      });
+
+      axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`;
+      
+      this.props.navigation.navigate('Home');
+    } catch (e) {
+      showError(e);
+    }
+  }
+
   render() {
     return (
       <ImageBackground style={styles.background} source={backgroundImage} >
         <Text style={styles.title} >Tasks</Text>
-        <View style={ styles.formContainer } >
-          <Text style={ styles.subTitle } >{ this.state.stageNew ? 'Crie a sua conta' : 'Informe seus dados' }</Text>
-          { this.state.stageNew && (
+        <View style={styles.formContainer} >
+          <Text style={styles.subTitle} >{this.state.stageNew ? 'Crie a sua conta' : 'Informe seus dados'}</Text>
+          {this.state.stageNew && (
             <AuthInput
               icon='user'
               placeholder='Nome'
-              value={ this.state.name }
-              style={ styles.input }
-              onChangeText={ name => this.setState({ name }) }
-            />  
-          ) }
+              value={this.state.name}
+              style={styles.input}
+              onChangeText={name => this.setState({ name })}
+            />
+          )}
           <AuthInput
             icon='at'
             keyboardType='email-address'
             placeholder='E-mail'
-            value={ this.state.email }
-            style={ styles.input }
-            onChangeText={ email => this.setState({ email }) }
+            value={this.state.email}
+            style={styles.input}
+            onChangeText={email => this.setState({ email })}
           />
           <AuthInput
             icon='lock'
             placeholder='Senha'
-            secureTextEntry={ true }
-            value={ this.state.password }
-            style={ styles.input }
-            onChangeText={ password => this.setState({ password }) }
+            secureTextEntry={true}
+            value={this.state.password}
+            style={styles.input}
+            onChangeText={password => this.setState({ password })}
           />
-          { this.state.stageNew && (
+          {this.state.stageNew && (
             <AuthInput
               icon='asterisk'
               placeholder='Confirmar senha'
-              secureTextEntry={ true }
-              value={ this.state.confirmPassword }
-              style={ styles.input }
-              onChangeText={ confirmPassword => this.setState({ confirmPassword }) }
-            />  
-          ) }
-          <TouchableOpacity onPress={ this.signinOrSignup } >
-            <View style={ styles.button }  >
-              <Text style={ styles.buttonText } >{ this.state.stageNew ? 'Registrar' : 'Entrar' }</Text>
+              secureTextEntry={true}
+              value={this.state.confirmPassword}
+              style={styles.input}
+              onChangeText={confirmPassword => this.setState({ confirmPassword })}
+            />
+          )}
+          <TouchableOpacity onPress={this.signinOrSignup} >
+            <View style={styles.button}  >
+              <Text style={styles.buttonText} >{this.state.stageNew ? 'Registrar' : 'Entrar'}</Text>
             </View>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={{ padding: 10 }} onPress={ () => this.setState({ stageNew: !this.state.stageNew }) } >
-          <Text style={ styles.buttonText } >{ this.state.stageNew ? 'Já possui conta?' : 'Ainda não possui conta?' }</Text>
+        <TouchableOpacity style={{ padding: 10 }} onPress={() => this.setState({ stageNew: !this.state.stageNew })} >
+          <Text style={styles.buttonText} >{this.state.stageNew ? 'Já possui conta?' : 'Ainda não possui conta?'}</Text>
         </TouchableOpacity>
       </ImageBackground>
     );
