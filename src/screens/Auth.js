@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, Text, StyleSheet, View, TextInput, TouchableOpacity, Platform, Alert } from 'react-native';
+import { ImageBackground, Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 
 import { server, showError, showSuccess } from '../common';
@@ -11,8 +11,8 @@ import AuthInput from '../components/AuthInput';
 
 const initialState = {
   name: '',
-  email: '',
-  password: '',
+  email: 'felixvicent1306@gmail.com',
+  password: 'ms767442',
   confirmPassword: '',
   stageNew: false,
 }
