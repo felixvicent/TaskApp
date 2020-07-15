@@ -1,27 +1,51 @@
 import React, { Component } from 'react';
 import { ImageBackground, Text, StyleSheet, View, TextInput, TouchableOpacity, Platform, Alert } from 'react-native';
+import axios from 'axios';
+
+import { server, showError, showSuccess } from '../common';
 
 import backgroundImage from '../../assets/imgs/login.jpg';
 import commonStyles from '../commonStyles';
 
 import AuthInput from '../components/AuthInput';
 
+const initialState = {
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+  stageNew: false,
+}
+
 export default class Auth extends Component {
   state = {
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    stageNew: false,
+    ...initialState
   }
 
   signinOrSignup = () => {
      if(this.state.stageNew) {
-       Alert.alert('Sucesso!', 'Criar conta')
+       this.signup();
      }
      else{
        Alert.alert('Sucesso!', 'Logar')
      }
+  }
+
+  signup = async () => {
+    try {
+      await axios.post(`${server}/signup`, {
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password,
+        confirmPassword: this.state.confirmPassword,
+      });
+
+      showSuccess('Usuário cadastrado');
+
+      this.setState({ ...initialState });
+    } catch (e) {
+      showError(e);
+    }
   }
 
   render() {
@@ -41,6 +65,7 @@ export default class Auth extends Component {
           ) }
           <AuthInput
             icon='at'
+            keyboardType='email-address'
             placeholder='E-mail'
             value={ this.state.email }
             style={ styles.input }
