@@ -4,6 +4,8 @@ import { ImageBackground, Text, StyleSheet, View, TextInput, TouchableOpacity, P
 import backgroundImage from '../../assets/imgs/login.jpg';
 import commonStyles from '../commonStyles';
 
+import AuthInput from '../components/AuthInput';
+
 export default class Auth extends Component {
   state = {
     name: '',
@@ -29,20 +31,23 @@ export default class Auth extends Component {
         <View style={ styles.formContainer } >
           <Text style={ styles.subTitle } >{ this.state.stageNew ? 'Crie a sua conta' : 'Informe seus dados' }</Text>
           { this.state.stageNew && (
-            <TextInput
+            <AuthInput
+              icon='user'
               placeholder='Nome'
               value={ this.state.name }
               style={ styles.input }
               onChangeText={ name => this.setState({ name }) }
             />  
           ) }
-          <TextInput
+          <AuthInput
+            icon='at'
             placeholder='E-mail'
             value={ this.state.email }
             style={ styles.input }
             onChangeText={ email => this.setState({ email }) }
           />
-          <TextInput
+          <AuthInput
+            icon='lock'
             placeholder='Senha'
             secureTextEntry={ true }
             value={ this.state.password }
@@ -50,7 +55,8 @@ export default class Auth extends Component {
             onChangeText={ password => this.setState({ password }) }
           />
           { this.state.stageNew && (
-            <TextInput
+            <AuthInput
+              icon='asterisk'
               placeholder='Confirmar senha'
               secureTextEntry={ true }
               value={ this.state.confirmPassword }
@@ -100,13 +106,13 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: '#fff',
     marginTop: 10,
-    padding: Platform.OS === 'ios' ? 15 : 10,
   },
   button: {
     backgroundColor: '#080',
     marginTop: 10,
     padding: 10,
     alignItems: 'center',
+    borderRadius: 7,
   },
   buttonText: {
     fontFamily: commonStyles.fontFamily,
