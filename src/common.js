@@ -3,7 +3,12 @@ import { Alert } from 'react-native';
 const server = 'https://felps-tasks.herokuapp.com';
 
 function showError(err) {
-  Alert.alert('Ops! Ocorreu um problema', `Mensagem: ${err}`);
+  if(err.response && err.response.data){
+    Alert.alert('Ops! Ocorreu um problema', `Mensagem: ${err.response.data}`);
+  }
+  else{
+    Alert.alert('Ops! Ocorreu um problema', `Mensagem: ${err}`);
+  }
 }
 
 function showSuccess(msg){
