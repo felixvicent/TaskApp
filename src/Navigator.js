@@ -12,6 +12,7 @@ import commonStyles from './commonStyles';
 const menuConfig = {
   initialRouteName: 'Today',
   contentComponent: Menu,
+  unmountInactiveRoutes: true,
   contentOptions: {
     labelStyle: {
       fontFamily: commonStyles.fontFamily,
