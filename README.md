@@ -11,4 +11,4 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
 
 ## Licença
 
-Esse projeto é licenciado pela MIT License - veja também [LICENSE.md](LICENSE.md) para mais detalhes
+Esse projeto é licenciado pela MIT License - veja também [LICENSE.md](LICENSE) para mais detalhes
